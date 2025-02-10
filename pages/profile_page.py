@@ -11,27 +11,27 @@ class ProfilePage(BasePage):
         super().__init__(driver)
 
     @allure.step('Переход в личный кабинет')
-    def transfer_to_cabinet(self, locator_button_cabinet):
+    def redirect_to_dashboard(self, locator_button_cabinet):
         self.click_on_element(locator_button_cabinet)
 
     @allure.step('Открытие истории заказов')
-    def history_orders(self, locator_button_cabinet, locator_email, locator_password, locator_button_entrance,
+    def orders_history(self, locator_button_cabinet, locator_email, locator_password, locator_button_entrance,
                        locator_history):
         self.click_on_element(locator_button_cabinet)
-        self.set_text_to_element(locator_email, CommonData.test_email)
-        self.set_text_to_element(locator_password, CommonData.test_user_password)
+        self.enter_text_into_element(locator_email, CommonData.test_email)
+        self.enter_text_into_element(locator_password, CommonData.test_user_password)
         self.click_on_element(locator_button_entrance)
         WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(Urls.main_url))
         self.click_on_element(locator_button_cabinet)
         self.click_on_element(locator_history)
 
-    @allure.step('Разлогин пользователя')
+    @allure.step('Авторизация и разлогин пользователя')
     def authorization_and_exit(self, locator_button_cabinet, locator_email, locator_password,
                                locator_button_entrance,
                                locator_exit):
         self.click_on_element(locator_button_cabinet)
-        self.set_text_to_element(locator_email, CommonData.test_email)
-        self.set_text_to_element(locator_password, CommonData.test_user_password)
+        self.enter_text_into_element(locator_email, CommonData.test_email)
+        self.enter_text_into_element(locator_password, CommonData.test_user_password)
         self.click_on_element(locator_button_entrance)
         WebDriverWait(self.driver, 100).until(expected_conditions.url_to_be(Urls.main_url))
         self.click_on_element(locator_button_cabinet)

@@ -8,15 +8,14 @@ class ForgotPasswordPage(BasePage):
         super().__init__(driver)
 
     @allure.step('Восстановление пароля')
-    def recover_password(self, locator_button_cabinet, locator_recover_pass, locator_email,
-                         locator_button_recover):
+    def reset_password(self, locator_button_cabinet, locator_recover_pass, locator_email, locator_button_recover):
         self.click_on_element(locator_button_cabinet)
         self.click_on_element(locator_recover_pass)
-        self.set_text_to_element(locator_email, CommonData.test_email)
+        self.enter_text_into_element(locator_email, CommonData.test_email)
         self.click_on_element(locator_button_recover)
 
     @allure.step('Открытие страницы восстановления пароля')
-    def page_recover(self, locator_button_cabinet, locator_recover_pass):
+    def password_recovery_page(self, locator_button_cabinet, locator_recover_pass):
         self.click_on_element(locator_button_cabinet)
         self.click_on_element(locator_recover_pass)
 

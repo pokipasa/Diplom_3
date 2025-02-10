@@ -11,15 +11,15 @@ class FeedPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-    @allure.step('Открытие окна с деталями заказа')
-    def click_order_new_window(self, locator_feed, locator_order):
+    @allure.step('Отображение окна с подробностями заказа')
+    def open_order_in_new_window(self, locator_feed, locator_order):
         self.click_on_element(locator_feed)
         self.click_on_element(locator_order)
 
-    @allure.step('Получение номера заказа в ленте заказов')
-    def user_orders_in_feed(self, create_user, locator_feed, locator_order, locator_order_number):
+    @allure.step('Получение идентификатора заказа из списка заказов')
+    def list_user_orders_in_feed(self, create_user, locator_feed, locator_order, locator_order_number):
         self.click_on_element(locator_feed)
-        response = CreateOrder.create_order_with_auth_with_ingr(create_user)
+        response = CreateOrder.authenticated_order_creation_with_ingredients(create_user)
         order_number = response.json()['order']['number']
         order_number = str(order_number)
         self.click_on_element(locator_order)
@@ -31,15 +31,15 @@ class FeedPage(BasePage):
     def count_increase(self, create_user, locator_feed, locator_count_total):
         self.click_on_element(locator_feed)
         count_before_order = self.get_text_from_element(locator_count_total)
-        CreateOrder.create_order_with_auth_with_ingr(create_user)
+        CreateOrder.authenticated_order_creation_with_ingredients(create_user)
         WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(Urls.feed_url))
         count_after_order = self.get_text_from_element(locator_count_total)
         return count_before_order, count_after_order
 
-    @allure.step('Получение номера заказа в работе')
-    def number_order_in_progress(self, create_user, locator_feed, locator_order_progress):
+    @allure.step('Получение номера заказа находящегося в работе')
+    def order_number_in_progress(self, create_user, locator_feed, locator_order_progress):
         self.click_on_element(locator_feed)
-        response = CreateOrder.create_order_with_auth_with_ingr(create_user)
+        response = CreateOrder.authenticated_order_creation_with_ingredients(create_user)
         order_ui = self.get_text_from_element(locator_order_progress)
         order_number = response.json()['order']['number']
         order_number = str(order_number)

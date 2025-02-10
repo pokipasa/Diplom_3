@@ -8,7 +8,7 @@ from locators.main_page_locators import MainPageLocators as Mpl
 
 class CreateOrder:
     @staticmethod
-    def create_order_with_auth_with_ingr(create_user):
+    def authenticated_order_creation_with_ingredients(create_user):
         header = {
                 'Authorization': create_user[3]
             }
