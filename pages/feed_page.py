@@ -36,7 +36,7 @@ class FeedPage(BasePage):
         count_after_order = self.get_text_from_element(locator_count_total)
         return count_before_order, count_after_order
 
-    @allure.step('Получение новера заказа в работе')
+    @allure.step('Получение номера заказа в работе')
     def number_order_in_progress(self, create_user, locator_feed, locator_order_progress):
         self.click_on_element(locator_feed)
         response = CreateOrder.create_order_with_auth_with_ingr(create_user)
