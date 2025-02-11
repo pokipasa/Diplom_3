@@ -13,7 +13,6 @@ class TestProfilePage:
     def test_verify_account_button_opens_profile_page(self, browser_driver):
         profile_page = ProfilePage(browser_driver)
         profile_page.redirect_to_dashboard(MainPageLocators.account_button)
-        browser_driver.implicitly_wait(3)
         result = browser_driver.current_url
         assert result == Urls.login_url
 
@@ -25,7 +24,6 @@ class TestProfilePage:
             LoginPageLocators.password_input_field, LoginPageLocators.sign_in_button,
             ProfilePageLocators.orders_history_url
         )
-        browser_driver.implicitly_wait(10)
         result = browser_driver.current_url
         assert result == Urls.order_history_url
 

@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
+
+from locators.feed_page_locators import FeedPageLocators
 from pages.base_page import BasePage
 from helpers import CreateOrder
 import allure
@@ -44,3 +46,8 @@ class FeedPage(BasePage):
         order_number = response.json()['order']['number']
         order_number = str(order_number)
         return order_number, order_ui
+
+    @allure.step('Поиск элемента')
+    def find_order_element(self, browser_driver):
+        element = browser_driver.find_element(*FeedPageLocators.current_order_number)
+        return element

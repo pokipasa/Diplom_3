@@ -12,7 +12,7 @@ class TestFeedPage:
     def test_check_order_details_popup_appears_on_click(self, browser_driver):
         feed_page = FeedPage(browser_driver)
         feed_page.open_order_in_new_window(MainPageLocators.feed_button, FeedPageLocators.orders_number)
-        element = browser_driver.find_element(*FeedPageLocators.current_order_number)
+        element = feed_page.find_order_element(browser_driver)
         assert element.text != ""
 
     @allure.title('Проверка отображения заказов пользователя из "Истории заказов" на странице "Лента заказов"')
