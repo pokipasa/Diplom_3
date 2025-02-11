@@ -1,0 +1,53 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+
+from locators.feed_page_locators import FeedPageLocators
+from pages.base_page import BasePage
+from helpers import CreateOrder
+import allure
+from data import Urls
+
+
+class FeedPage(BasePage):
+
+    def __init__(self, driver):
+        super().__init__(driver)
+
+    @allure.step('Отображение окна с подробностями заказа')
+    def open_order_in_new_window(self, locator_feed, locator_order):
+        self.click_on_element(locator_feed)
+        self.click_on_element(locator_order)
+
+    @allure.step('Получение идентификатора заказа из списка заказов')
+    def list_user_orders_in_feed(self, create_user, locator_feed, locator_order, locator_order_number):
+        self.click_on_element(locator_feed)
+        response = CreateOrder.authenticated_order_creation_with_ingredients(create_user)
+        order_number = response.json()['order']['number']
+        order_number = str(order_number)
+        self.click_on_element(locator_order)
+        order_ui = self.get_text_from_element(locator_order_number)
+        order_ui = order_ui[2:]
+        return order_number, order_ui
+
+    @allure.step('Увеличение счетчика')
+    def count_increase(self, create_user, locator_feed, locator_count_total):
+        self.click_on_element(locator_feed)
+        count_before_order = self.get_text_from_element(locator_count_total)
+        CreateOrder.authenticated_order_creation_with_ingredients(create_user)
+        WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(Urls.feed_url))
+        count_after_order = self.get_text_from_element(locator_count_total)
+        return count_before_order, count_after_order
+
+    @allure.step('Получение номера заказа находящегося в работе')
+    def order_number_in_progress(self, create_user, locator_feed, locator_order_progress):
+        self.click_on_element(locator_feed)
+        response = CreateOrder.authenticated_order_creation_with_ingredients(create_user)
+        order_ui = self.get_text_from_element(locator_order_progress)
+        order_number = response.json()['order']['number']
+        order_number = str(order_number)
+        return order_number, order_ui
+
+    @allure.step('Поиск элемента')
+    def find_order_element(self, browser_driver):
+        element = browser_driver.find_element(*FeedPageLocators.current_order_number)
+        return element
